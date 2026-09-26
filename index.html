@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+    <html lang="vi">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rU3U4 đề 5</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f0f2f5; position: relative; z-index: 1; }
+        .watermark { position: absolute; top: 30px; left: 0; right: 0; text-align: center; font-size: 50px; color: rgba(0, 0, 0, 0.04); font-weight: bold; pointer-events: none; z-index: -1; user-select: none; }
+        .watermark div { transform: rotate(-30deg); margin: 200px 0; }
+        h1, h2 { color: #2c3e50; text-align: center; }
+        .screen { display: none; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .screen.active { display: block; }
+        
+        input[type="text"] { width: 100%; padding: 12px; margin: 10px 0 20px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; transition: border-color 0.3s; }
+        input[type="text"]:focus { border-color: #3498db; outline: none; }
+        
+        button { background: #3498db; color: #fff; border: none; padding: 12px 24px; font-size: 16px; border-radius: 6px; cursor: pointer; transition: background 0.3s, transform 0.1s; }
+        button:hover { background: #2980b9; }
+        button:active { transform: scale(0.98); }
+        button:disabled { background: #95a5a6; cursor: not-allowed; }
+        
+        .question-block { margin-bottom: 25px; padding: 15px; background: #f9f9f9; border-left: 4px solid #3498db; border-radius: 0 8px 8px 0; }
+        .instruction-box { margin-bottom: 15px; padding: 10px 15px; background: #e8f4fd; border: 1px solid #b6d4fe; border-radius: 6px; font-weight: bold; color: #004085; }
+        .question-text { font-weight: 500; margin-bottom: 15px; font-size: 16px; line-height: 1.8; }
+        
+        .options { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+        .option { padding: 12px 15px; background: #fff; border: 2px solid #eee; border-radius: 8px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 10px; }
+        .option:hover { border-color: #3498db; background: #f8faff; }
+        .option.selected { border-color: #3498db; background: #ebf5ff; }
+        .option.correct-opt { border-color: #2ecc71; background: #eafaf1; }
+        .option.wrong-opt { border-color: #e74c3c; background: #fdedec; }
+        
+        .radio-circle { width: 20px; height: 20px; border: 2px solid #ddd; border-radius: 50%; position: relative; }
+        .option.selected .radio-circle::after { content: ''; position: absolute; top: 4px; left: 4px; width: 12px; height: 12px; background: #3498db; border-radius: 50%; }
+        
+        .gap-fill-input { width: 120px !important; padding: 4px 8px !important; margin: 0 5px !important; display: inline-block !important; border: 1px solid #ccc !important; border-radius: 4px !important; font-size: 16px !important; }
+        
+        .reordering-container { display: flex; flex-direction: column; gap: 15px; }
+        .word-bank, .drop-zone { display: flex; flex-wrap: wrap; gap: 8px; min-height: 45px; padding: 10px; background: #fff; border: 2px dashed #ddd; border-radius: 8px; }
+        .word-chip { padding: 8px 16px; background: #3498db; color: #fff; border-radius: 20px; cursor: pointer; user-select: none; font-weight: 500; transition: transform 0.1s; }
+        .word-chip:active { transform: scale(0.95); }
+        .word-chip.correct { background: #2ecc71; }
+        .word-chip.wrong { background: #e74c3c; }
+        
+        .rewrite-input { width: 100%; height: 80px; padding: 12px; border: 2px solid #ddd; border-radius: 6px; resize: vertical; font-size: 16px; font-family: inherit; }
+        
+        .check-btn { margin-top: 15px; background: #3498db; font-size: 14px; padding: 8px 16px; }
+        .explanation { display: none; margin-top: 15px; padding: 15px; background: #eef2f5; border-radius: 6px; font-size: 14.5px; line-height: 1.5; color: #2c3e50; border-left: 4px solid #2ecc71; }
+        
+        .progress-bar { width: 100%; height: 10px; background: #ddd; border-radius: 5px; margin-bottom: 20px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #2ecc71; width: 0%; transition: width 0.3s; }
+        
+        .result-details { margin-top: 20px; padding: 15px; padding-bottom: 30px; background: #f8f9fa; border-radius: 6px; text-align: left; max-height: 60vh; overflow-y: auto; font-size: 14px; }
+        .error-item { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee; color: #e74c3c; }
+    </style>
+    </head>
+    <body>
+    <div class="watermark">
+        <div>rU3U4 đề 5<br>GV biên soạn: Ms Chí Nên - 0852639652</div>
+        <div>rU3U4 đề 5<br>GV biên soạn: Ms Chí Nên - 0852639652</div>
+        <div>rU3U4 đề 5<br>GV biên soạn: Ms Chí Nên - 0852639652</div>
+        <div>rU3U4 đề 5<br>GV biên soạn: Ms Chí Nên - 0852639652</div>
+    </div>
+    
+    <div id="startScreen" class="screen active">
+        <h1>rU3U4 đề 5</h1>
+        <p style="text-align: center; color: #7f8c8d;">Nhập họ và tên của bạn để bắt đầu làm bài</p>
+        <input type="text" id="studentName" placeholder="Ví dụ: Nguyễn Văn A" autocomplete="off">
+        <div style="text-align: center;">
+            <button onclick="startTest()">Bắt đầu làm bài</button>
+        </div>
+    </div>
+    
+    <div id="testScreen" class="screen">
+        <h2>rU3U4 đề 5</h2>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div id="questionsContainer"></div>
+        <div style="text-align: center; margin-top: 30px;">
+            <button id="submitBtn" onclick="confirmSubmit()" style="background: #2ecc71; font-weight: bold; padding: 15px 40px;">NỘP BÀI</button>
+        </div>
+    </div>
+    
+    <div id="resultScreen" class="screen" style="text-align: center;">
+        <h1 style="color: #2ecc71; font-size: 36px;">Hoàn thành!</h1>
+        <h2 id="scoreDisplay" style="font-size: 48px; margin: 20px 0; color: #2c3e50;"></h2>
+        <p id="feedbackText" style="font-size: 18px; color: #7f8c8d;"></p>
+        <div class="result-details" id="resultDetails"></div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 50px; padding: 20px; color: #7f8c8d; font-size: 14px; border-top: 1px solid #ddd;">
+        GV biên soạn: Ms Chí Nên - 0852639652
+    </div>
+    
+    <script>
+        const testName = 'rU3U4 đề 5';
+        const quizData = [
+    {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "<b>Questions 1–25. Multiple Choice (MCQs) Choose the best answer A, B, C or D to complete each sentence.</b><br>1. The football match was cancelled because the ________ was flooded.",
+        "options": [
+            {
+                "text": "A. court",
+                "isCorrect": false
+            },
+            {
+                "text": "B. pitch",
+                "isCorrect": true
+            },
+            {
+                "text": "C. rink",
+                "isCorrect": false
+            },
+            {
+                "text": "D. ring",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Trận bóng đá bị hủy vì sân bóng bị ngập nước.<br><strong>Giải thích:</strong> 'pitch' là sân bóng đá. 'court' là sân tennis/bóng rổ, 'rink' là sân trượt băng, 'ring' là võ đài."
+    },
+    {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "2. We met at the basketball ________ after school.",
+        "options": [
+            {
+                "text": "A. course",
+                "isCorrect": false
+            },
+            {
+                "text": "B. court",
+                "isCorrect": true
+            },
+            {
+                "text": "C. track",
+                "isCorrect": false
+            },
+            {
+                "text": "D. pitch",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Chúng tôi gặp nhau ở sân bóng rổ sau giờ học.<br><strong>Giải thích:</strong> 'court' dùng cho sân bóng rổ, tennis, cầu lông. 'course' là sân golf, 'track' là đường chạy, 'pitch' là sân bóng đá."
+    },
+    {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "3. The 800-metre runners went round the ________ twice.",
+        "options": [
+            {
+                "text": "A. ring",
+                "isCorrect": false
+            },
+            {
+                "text": "B. track",
+                "isCorrect": true
+            },
+            {
+                "text": "C. rink",
+                "isCorrect": false
+            },
+            {
+                "text": "D. court",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Các vận động viên chạy 800 mét đã chạy quanh đường chạy hai vòng.<br><strong>Giải thích:</strong> 'track' là đường chạy điền kinh. 'ring' là võ đài, 'rink' là sân băng, 'court' là sân bóng rổ/tennis."
+    },
+    {
+        "id": 4,
+        "type": "multiple_choice",
+        "question": "4. They go skating at the ice ________ every Saturday.",
+        "options": [
+            {
+                "text": "A. rink",
+                "isCorrect": true
+            },
+            {
+                "text": "B. pitch",
+                "isCorrect": false
+            },
+            {
+                "text": "C. course",
+                "isCorrect": false
+            },
+            {
+                "text": "D. track",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Họ đi trượt băng ở sân trượt băng mỗi thứ Bảy.<br><strong>Giải thích:</strong> 'ice rink' là sân trượt băng. 'pitch' là sân bóng đá, 'course' là sân golf, 'track' là đường chạy."
+    },
+    {
+        "id": 5,
+        "type": "multiple_choice",
+        "question": "5. The boxer stepped into the ________ confidently.",
+        "options": [
+            {
+                "text": "A. pitch",
+                "isCorrect": false
+            },
+            {
+                "text": "B. ring",
+                "isCorrect": true
+            },
+            {
+                "text": "C. court",
+                "isCorrect": false
+            },
+            {
+                "text": "D. course",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Võ sĩ tự tin bước vào võ đài.<br><strong>Giải thích:</strong> 'ring' (boxing ring) là võ đài quyền anh. Các lựa chọn khác không dùng cho quyền anh."
+    },
+    {
+        "id": 6,
+        "type": "multiple_choice",
+        "question": "6. This golf ________ is one of the largest in Scotland.",
+        "options": [
+            {
+                "text": "A. court",
+                "isCorrect": false
+            },
+            {
+                "text": "B. course",
+                "isCorrect": true
+            },
+            {
+                "text": "C. rink",
+                "isCorrect": false
+            },
+            {
+                "text": "D. ring",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Sân golf này là một trong những sân lớn nhất ở Scotland.<br><strong>Giải thích:</strong> 'golf course' là sân golf."
+    },
+    {
+        "id": 7,
+        "type": "multiple_choice",
+        "question": "7. Our team ________ the champions 2–1.",
+        "options": [
+            {
+                "text": "A. won",
+                "isCorrect": false
+            },
+            {
+                "text": "B. beat",
+                "isCorrect": true
+            },
+            {
+                "text": "C. scored",
+                "isCorrect": false
+            },
+            {
+                "text": "D. drew",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Đội của chúng tôi đã đánh bại những nhà vô địch với tỷ số 2-1.<br><strong>Giải thích:</strong> 'beat sb' là đánh bại ai/đội nào đó. 'win' đi với giải thưởng/trận đấu (win a match/prize)."
+    },
+    {
+        "id": 8,
+        "type": "multiple_choice",
+        "question": "8. Who ________ the winning goal?",
+        "options": [
+            {
+                "text": "A. beat",
+                "isCorrect": false
+            },
+            {
+                "text": "B. won",
+                "isCorrect": false
+            },
+            {
+                "text": "C. scored",
+                "isCorrect": true
+            },
+            {
+                "text": "D. equal",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Ai đã ghi bàn thắng quyết định?<br><strong>Giải thích:</strong> 'score a goal' là ghi bàn."
+    },
+    {
+        "id": 9,
+        "type": "multiple_choice",
+        "question": "9. She ________ first prize in the photography competition.",
+        "options": [
+            {
+                "text": "A. beat",
+                "isCorrect": false
+            },
+            {
+                "text": "B. won",
+                "isCorrect": true
+            },
+            {
+                "text": "C. scored",
+                "isCorrect": false
+            },
+            {
+                "text": "D. drew",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Cô ấy đã giành giải nhất trong cuộc thi nhiếp ảnh.<br><strong>Giải thích:</strong> 'win a prize' là giành được giải thưởng."
+    },
+    {
+        "id": 10,
+        "type": "multiple_choice",
+        "question": "10. Can I borrow your tennis ________?",
+        "options": [
+            {
+                "text": "A. bat",
+                "isCorrect": false
+            },
+            {
+                "text": "B. rod",
+                "isCorrect": false
+            },
+            {
+                "text": "C. racket",
+                "isCorrect": true
+            },
+            {
+                "text": "D. stick",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Tôi có thể mượn vợt tennis của bạn được không?<br><strong>Giải thích:</strong> 'tennis racket' là vợt tennis. 'bat' là gậy (bóng chày/bóng bàn), 'rod' là cần câu, 'stick' là gậy khúc côn cầu."
+    },
+    {
+        "id": 11,
+        "type": "multiple_choice",
+        "question": "11. He received a new fishing ________ for his birthday.",
+        "options": [
+            {
+                "text": "A. rod",
+                "isCorrect": true
+            },
+            {
+                "text": "B. bat",
+                "isCorrect": false
+            },
+            {
+                "text": "C. racket",
+                "isCorrect": false
+            },
+            {
+                "text": "D. stick",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Anh ấy nhận được một chiếc cần câu mới vào dịp sinh nhật.<br><strong>Giải thích:</strong> 'fishing rod' là cần câu cá."
+    },
+    {
+        "id": 12,
+        "type": "multiple_choice",
+        "question": "12. A hockey ________ has a curved end.",
+        "options": [
+            {
+                "text": "A. bat",
+                "isCorrect": false
+            },
+            {
+                "text": "B. stick",
+                "isCorrect": true
+            },
+            {
+                "text": "C. rod",
+                "isCorrect": false
+            },
+            {
+                "text": "D. racket",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Gậy khúc côn cầu có một đầu cong.<br><strong>Giải thích:</strong> 'hockey stick' là gậy khúc côn cầu."
+    },
+    {
+        "id": 13,
+        "type": "multiple_choice",
+        "question": "13. The cricket player lifted his ________ before facing the bowler.",
+        "options": [
+            {
+                "text": "A. bat",
+                "isCorrect": true
+            },
+            {
+                "text": "B. rod",
+                "isCorrect": false
+            },
+            {
+                "text": "C. racket",
+                "isCorrect": false
+            },
+            {
+                "text": "D. stick",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Cầu thủ bóng gậy (cricket) nâng gậy của mình lên trước khi đối mặt với người ném bóng.<br><strong>Giải thích:</strong> 'cricket bat' là gậy chơi môn cricket."
+    },
+    {
+        "id": 14,
+        "type": "multiple_choice",
+        "question": "14. She performs magic for fun and has no plan to become a ________.",
+        "options": [
+            {
+                "text": "A. professional",
+                "isCorrect": true
+            },
+            {
+                "text": "B. spectator",
+                "isCorrect": false
+            },
+            {
+                "text": "C. viewer",
+                "isCorrect": false
+            },
+            {
+                "text": "D. referee",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Cô ấy biểu diễn ảo thuật cho vui và không có kế hoạch trở thành người chuyên nghiệp.<br><strong>Giải thích:</strong> 'professional' (danh từ) là người làm nghề chuyên nghiệp. Các từ khác không hợp nghĩa."
+    },
+    {
+        "id": 15,
+        "type": "multiple_choice",
+        "question": "15. The ________ in the stadium cheered loudly.",
+        "options": [
+            {
+                "text": "A. viewers",
+                "isCorrect": false
+            },
+            {
+                "text": "B. spectators",
+                "isCorrect": true
+            },
+            {
+                "text": "C. audiences",
+                "isCorrect": false
+            },
+            {
+                "text": "D. watchers",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Các khán giả trong sân vận động đã cổ vũ nồng nhiệt.<br><strong>Giải thích:</strong> 'spectator' là khán giả xem trực tiếp tại sân vận động (thể thao)."
+    },
+    {
+        "id": 16,
+        "type": "multiple_choice",
+        "question": "16. Millions of TV ________ watched the final.",
+        "options": [
+            {
+                "text": "A. spectators",
+                "isCorrect": false
+            },
+            {
+                "text": "B. viewers",
+                "isCorrect": true
+            },
+            {
+                "text": "C. competitors",
+                "isCorrect": false
+            },
+            {
+                "text": "D. opponents",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Hàng triệu khán giả truyền hình đã theo dõi trận chung kết.<br><strong>Giải thích:</strong> 'viewer' là khán giả xem qua truyền hình (TV viewers)."
+    },
+    {
+        "id": 17,
+        "type": "multiple_choice",
+        "question": "17. The football ________ showed the player a red card.",
+        "options": [
+            {
+                "text": "A. umpire",
+                "isCorrect": false
+            },
+            {
+                "text": "B. referee",
+                "isCorrect": true
+            },
+            {
+                "text": "C. viewer",
+                "isCorrect": false
+            },
+            {
+                "text": "D. opponent",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Trọng tài bóng đá đã rút thẻ đỏ cho cầu thủ.<br><strong>Giải thích:</strong> 'referee' là trọng tài (bóng đá, quyền anh...). 'umpire' dùng trong tennis, bóng chày."
+    },
+    {
+        "id": 18,
+        "type": "multiple_choice",
+        "question": "18. The tennis ________ called the ball out.",
+        "options": [
+            {
+                "text": "A. referee",
+                "isCorrect": false
+            },
+            {
+                "text": "B. umpire",
+                "isCorrect": true
+            },
+            {
+                "text": "C. competitor",
+                "isCorrect": false
+            },
+            {
+                "text": "D. spectator",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Trọng tài quần vợt đã hô bóng ra ngoài.<br><strong>Giải thích:</strong> 'umpire' là trọng tài môn quần vợt (tennis)."
+    },
+    {
+        "id": 19,
+        "type": "multiple_choice",
+        "question": "19. We reached the ________ but lost the championship match.",
+        "options": [
+            {
+                "text": "A. finale",
+                "isCorrect": false
+            },
+            {
+                "text": "B. final",
+                "isCorrect": true
+            },
+            {
+                "text": "C. ending",
+                "isCorrect": false
+            },
+            {
+                "text": "D. interval",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Chúng tôi đã vào đến trận chung kết nhưng để thua trận tranh ngôi vô địch.<br><strong>Giải thích:</strong> 'final' là trận chung kết. 'finale' là phần kết màn trình diễn văn nghệ."
+    },
+    {
+        "id": 20,
+        "type": "multiple_choice",
+        "question": "20. The concert ended with a spectacular ________.",
+        "options": [
+            {
+                "text": "A. final",
+                "isCorrect": false
+            },
+            {
+                "text": "B. finale",
+                "isCorrect": true
+            },
+            {
+                "text": "C. half time",
+                "isCorrect": false
+            },
+            {
+                "text": "D. ending",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Buổi hòa nhạc kết thúc với một màn trình diễn kết thúc hoành tráng.<br><strong>Giải thích:</strong> 'finale' là tiết mục cuối cùng, phần kết rực rỡ của một buổi biểu diễn."
+    },
+    {
+        "id": 21,
+        "type": "multiple_choice",
+        "question": "21. We bought drinks during the theatre ________.",
+        "options": [
+            {
+                "text": "A. half time",
+                "isCorrect": false
+            },
+            {
+                "text": "B. interval",
+                "isCorrect": true
+            },
+            {
+                "text": "C. finale",
+                "isCorrect": false
+            },
+            {
+                "text": "D. final",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Chúng tôi mua đồ uống trong khoảng thời gian nghỉ giải lao ở nhà hát.<br><strong>Giải thích:</strong> 'interval' là giờ nghỉ giải lao ở nhà hát/rạp chiếu phim. 'half time' là nghỉ giữa hiệp thể thao."
+    },
+    {
+        "id": 22,
+        "type": "multiple_choice",
+        "question": "22. The coach spoke to the team at ________.",
+        "options": [
+            {
+                "text": "A. interval",
+                "isCorrect": false
+            },
+            {
+                "text": "B. half time",
+                "isCorrect": true
+            },
+            {
+                "text": "C. ending",
+                "isCorrect": false
+            },
+            {
+                "text": "D. finale",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Huấn luyện viên đã nói chuyện với đội bóng vào giờ nghỉ giữa hiệp.<br><strong>Giải thích:</strong> 'half time' là giờ nghỉ giữa hai hiệp thi đấu thể thao."
+    },
+    {
+        "id": 23,
+        "type": "multiple_choice",
+        "question": "23. The match ended in a 2–2 ________.",
+        "options": [
+            {
+                "text": "A. equal",
+                "isCorrect": false
+            },
+            {
+                "text": "B. draw",
+                "isCorrect": true
+            },
+            {
+                "text": "C. score",
+                "isCorrect": false
+            },
+            {
+                "text": "D. win",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Trận đấu kết thúc với một tỷ số hòa 2-2.<br><strong>Giải thích:</strong> 'a draw' là một trận hòa (danh từ)."
+    },
+    {
+        "id": 24,
+        "type": "multiple_choice",
+        "question": "24. The two sides are ________ on points.",
+        "options": [
+            {
+                "text": "A. draw",
+                "isCorrect": false
+            },
+            {
+                "text": "B. equal",
+                "isCorrect": true
+            },
+            {
+                "text": "C. beat",
+                "isCorrect": false
+            },
+            {
+                "text": "D. score",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Hai bên đang bằng điểm nhau.<br><strong>Giải thích:</strong> 'equal' (tính từ) nghĩa là bằng nhau. 'equal on points' = bằng điểm nhau."
+    },
+    {
+        "id": 25,
+        "type": "multiple_choice",
+        "question": "25. All ________ should report to the starting line.",
+        "options": [
+            {
+                "text": "A. opponents",
+                "isCorrect": false
+            },
+            {
+                "text": "B. competitors",
+                "isCorrect": true
+            },
+            {
+                "text": "C. spectators",
+                "isCorrect": false
+            },
+            {
+                "text": "D. viewers",
+                "isCorrect": false
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Tất cả những người thi đấu cần phải có mặt tại vạch xuất phát.<br><strong>Giải thích:</strong> 'competitors' là những người tham gia thi đấu."
+    },
+    {
+        "id": 26,
+        "type": "gap_fill_text",
+        "question": "<b>Questions 26–50. Gap Fill. Complete each sentence with the most suitable word from Topic Vocabulary in Contrast. Use the correct form where necessary.</b><br>26. The person you are playing against is your {{blank:b1}}.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "opponent"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Người mà bạn đang đấu lại là đối thủ của bạn.<br><strong>Giải thích:</strong> 'opponent' (đối thủ)."
+    },
+    {
+        "id": 27,
+        "type": "gap_fill_text",
+        "question": "27. A person who takes part in a contest is a {{blank:b1}}.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "competitor"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Người tham gia một cuộc thi là một người thi đấu.<br><strong>Giải thích:</strong> 'competitor' (người thi đấu, thí sinh)."
+    },
+    {
+        "id": 28,
+        "type": "gap_fill_text",
+        "question": "28. We do {{blank:b1}} such as running, jumping and throwing in PE lessons.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "athletics"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Chúng tôi tập điền kinh như là chạy, nhảy và ném trong giờ thể dục.<br><strong>Giải thích:</strong> 'athletics' (điền kinh) bao gồm các môn như chạy, nhảy, ném."
+    },
+    {
+        "id": 29,
+        "type": "gap_fill_text",
+        "question": "29. Would you like a {{blank:b1}} of chess?",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "game"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Bạn có muốn chơi một ván cờ không?<br><strong>Giải thích:</strong> 'a game of chess' = một ván cờ."
+    },
+    {
+        "id": 30,
+        "type": "gap_fill_text",
+        "question": "30. The school drama club is putting on a {{blank:b1}} next month.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "play"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Câu lạc bộ kịch của trường sẽ diễn một vở kịch vào tháng tới.<br><strong>Giải thích:</strong> 'put on a play' = trình diễn/tổ chức một vở kịch."
+    },
+    {
+        "id": 31,
+        "type": "gap_fill_text",
+        "question": "31. The happy {{blank:b1}} made the audience smile.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "ending"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Cái kết có hậu đã làm khán giả mỉm cười.<br><strong>Giải thích:</strong> 'happy ending' là cái kết có hậu."
+    },
+    {
+        "id": 32,
+        "type": "gap_fill_text",
+        "question": "32. We stayed until the {{blank:b1}} of the match.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "end"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Chúng tôi đã ở lại cho đến khi trận đấu kết thúc.<br><strong>Giải thích:</strong> 'the end' là điểm kết thúc của một khoảng thời gian/sự kiện (the end of the match)."
+    },
+    {
+        "id": 33,
+        "type": "gap_fill_text",
+        "question": "33. The baseball player swung the {{blank:b1}}.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "bat"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Cầu thủ bóng chày vung gậy.<br><strong>Giải thích:</strong> 'bat' dùng cho gậy bóng chày (baseball bat)."
+    },
+    {
+        "id": 34,
+        "type": "gap_fill_text",
+        "question": "34. The fisherman packed his {{blank:b1}} before leaving.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "rod"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Người ngư dân cất cần câu trước khi rời đi.<br><strong>Giải thích:</strong> 'fishing rod' = cần câu."
+    },
+    {
+        "id": 35,
+        "type": "gap_fill_text",
+        "question": "35. The badminton player broke her {{blank:b1}}.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "racket"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Người chơi cầu lông đã làm gãy cây vợt của cô ấy.<br><strong>Giải thích:</strong> 'badminton racket' = vợt cầu lông."
+    },
+    {
+        "id": 36,
+        "type": "gap_fill_text",
+        "question": "36. The hockey player dropped his {{blank:b1}}.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "stick"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Cầu thủ khúc côn cầu đánh rơi gậy của anh ấy.<br><strong>Giải thích:</strong> 'hockey stick' = gậy khúc côn cầu."
+    },
+    {
+        "id": 37,
+        "type": "gap_fill_text",
+        "question": "37. The runners are waiting beside the {{blank:b1}}.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "track"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Các vận động viên chạy đang đợi bên cạnh đường chạy.<br><strong>Giải thích:</strong> 'track' = đường chạy."
+    },
+    {
+        "id": 38,
+        "type": "gap_fill_text",
+        "question": "38. The players walked onto the football {{blank:b1}}.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "pitch"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Các cầu thủ bước lên sân bóng đá.<br><strong>Giải thích:</strong> 'football pitch' = sân bóng đá."
+    },
+    {
+        "id": 39,
+        "type": "gap_fill_text",
+        "question": "39. The skaters practised on the {{blank:b1}}.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "rink"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Những người trượt băng luyện tập trên sân băng.<br><strong>Giải thích:</strong> 'ice rink' hoặc 'rink' = sân trượt băng."
+    },
+    {
+        "id": 40,
+        "type": "gap_fill_text",
+        "question": "40. The boxer returned to the {{blank:b1}} for round two.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "ring"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Võ sĩ quay lại võ đài cho hiệp hai.<br><strong>Giải thích:</strong> 'ring' = võ đài quyền anh."
+    },
+    {
+        "id": 41,
+        "type": "gap_fill_text",
+        "question": "41. The golfers walked across the {{blank:b1}}.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "course"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Các gôn thủ đi bộ ngang qua sân golf.<br><strong>Giải thích:</strong> 'golf course' hoặc 'course' = sân golf."
+    },
+    {
+        "id": 42,
+        "type": "gap_fill_text",
+        "question": "42. The basketball players were warming up on the {{blank:b1}}.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "court"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Các cầu thủ bóng rổ đang khởi động trên sân bóng rổ.<br><strong>Giải thích:</strong> 'basketball court' = sân bóng rổ."
+    },
+    {
+        "id": 43,
+        "type": "gap_fill_text",
+        "question": "43. Our school {{blank:b1}} the regional competition last year.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "won"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Trường chúng tôi đã giành chiến thắng trong cuộc thi cấp khu vực năm ngoái.<br><strong>Giải thích:</strong> 'win a competition' = chiến thắng một cuộc thi. Chia thì quá khứ (last year) nên dùng 'won'."
+    },
+    {
+        "id": 44,
+        "type": "gap_fill_text",
+        "question": "44. We {{blank:b1}} our rivals in the semi-final.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "beat"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Chúng tôi đã đánh bại đối thủ của mình trong trận bán kết.<br><strong>Giải thích:</strong> 'beat somebody/rivals' = đánh bại ai/đối thủ. Quá khứ của beat vẫn là beat."
+    },
+    {
+        "id": 45,
+        "type": "gap_fill_text",
+        "question": "45. She {{blank:b1}} three points in the final minute.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "scored"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Cô ấy đã ghi 3 điểm ở phút cuối cùng.<br><strong>Giải thích:</strong> 'score points' = ghi điểm. Việc đã diễn ra nên dùng quá khứ 'scored'."
+    },
+    {
+        "id": 46,
+        "type": "gap_fill_text",
+        "question": "46. The match was a {{blank:b1}}, so neither side won.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "draw"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Trận đấu là một trận hòa, vì vậy không bên nào chiến thắng.<br><strong>Giải thích:</strong> 'a draw' = một trận hòa."
+    },
+    {
+        "id": 47,
+        "type": "gap_fill_text",
+        "question": "47. The scores were {{blank:b1}} at 5–5.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "equal"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Tỷ số bằng nhau ở mức 5-5.<br><strong>Giải thích:</strong> 'equal' = bằng nhau."
+    },
+    {
+        "id": 48,
+        "type": "gap_fill_text",
+        "question": "48. A live-match {{blank:b1}} buys a ticket to watch in the stadium.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "spectator"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Khán giả xem trực tiếp mua vé để xem trong sân vận động.<br><strong>Giải thích:</strong> 'spectator' = khán giả xem trực tiếp ở sân vận động."
+    },
+    {
+        "id": 49,
+        "type": "gap_fill_text",
+        "question": "49. A TV {{blank:b1}} watches the event on a screen.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "viewer"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Khán giả truyền hình theo dõi sự kiện trên màn hình.<br><strong>Giải thích:</strong> 'viewer' = khán giả xem truyền hình."
+    },
+    {
+        "id": 50,
+        "type": "gap_fill_text",
+        "question": "50. The last dramatic scene was the {{blank:b1}} of the show.",
+        "blanks": [
+            {
+                "blankId": "b1",
+                "correctAnswers": [
+                    "finale"
+                ]
+            }
+        ],
+        "explanation": "<strong>Dịch:</strong> Cảnh kịch tính cuối cùng là phần kết màn của chương trình.<br><strong>Giải thích:</strong> 'finale' = phần kết thúc màn biểu diễn (thường đặc sắc, hoành tráng)."
+    }
+];
+        
+          let state = {};
+          
+          function normalize(str) {
+              return str.replace(/\u00a0/g, ' ').replace(/[\s\n\r]+/g, ' ').trim();
+          }
+
+          function init() {
+              const container = document.getElementById('questionsContainer');
+              
+              quizData.forEach((q, index) => {
+                  state[q.id] = { checked: false, isCorrect: false, value: null };
+                  
+                  let block = document.createElement('div');
+                  block.className = 'question-block';
+                  block.id = 'q-block-' + q.id;
+                  
+                  let qText = q.questionHTML || q.question;
+                  let origText = q.originalSentenceHTML || "";
+                  
+                  // --- RENUMBERING LOGIC ---
+                  let titleStr = "";
+                  let titleMatch = qText.match(/^(<b>.*?<\/b>\s*<br\s*\/?>\s*)/i);
+                  if (titleMatch) {
+                      titleStr = titleMatch[1];
+                      qText = qText.substring(titleMatch[1].length);
+                  }
+                  
+                  // Strip leading numbers from qText
+                  qText = qText.replace(/^\d+[\.\)]?\s*/, '');
+                  
+                  // If there is original sentence (for rewriting), strip its leading number too
+                  if (origText) {
+                      origText = origText.replace(/^\d+[\.\)]?\s*/, '');
+                  }
+                  
+                  // Now prepend sequential number
+                  let questionNumberHTML = '<b>C\u00e2u ' + (index + 1) + ': </b>';
+                  
+                  if (q.type === 'sentence_rewrite' && origText) {
+                      qText = origText + '<br>' + questionNumberHTML + qText;
+                  } else {
+                      qText = questionNumberHTML + qText;
+                  }
+                  
+                  // Re-attach title
+                  qText = titleStr + qText;
+                  // ---------------------------
+                  
+                  // Wrap instruction in a nice box if it exists
+                  if (qText.startsWith('<b>') && qText.match(/^<b>(.*?)<\/b>\s*<br\s*\/?>\s*/i)) {
+                      qText = qText.replace(/^<b>(.*?)<\/b>\s*<br\s*\/?>\s*/i, '<div class="instruction-box">$1</div>');
+                  }
+                  
+                  if (q.type === 'gap_fill_text') {
+                      if (q.blanks) {
+                          q.blanks.forEach(b => {
+                              let blankStr = '{{blank:' + b.blankId + '}}';
+                              let inpStr = '<input type="text" id="input-' + q.id + '-' + b.blankId + '" class="gap-fill-input" autocomplete="off">';
+                              if (qText.includes(blankStr)) {
+                                  qText = qText.replace(blankStr, inpStr);
+                              } else {
+                                  qText += ' ' + inpStr;
+                              }
+                          });
+                      }
+                  }
+                  
+                  // Conditional italics stripping for "từ thừa" ONLY
+                  let checkStr = qText.toLowerCase();
+                  if (checkStr.includes('find the extra word') || checkStr.includes('từ thừa') || checkStr.includes('từ sai') || checkStr.includes('t\u1eeb th\u1eeba')) {
+                      qText = qText.replace(/<\/?i>/gi, '');
+                  }
+                  
+                  let html = '<div class="question-text">' + qText + '</div>';
+                  
+                  if (q.type === 'multiple_choice' || q.type === 'mcq') {
+                      html += '<div class="options">';
+                      q.options.forEach((opt, idx) => {
+                          let optText = opt.text || opt.html || '';
+                          let label = opt.label || String.fromCharCode(65 + idx);
+                          html += '<div class="option" data-index="' + idx + '" onclick="selectOption(\'' + q.id + '\', ' + idx + ')">';
+                          html += '<div class="radio-circle"></div>';
+                          html += '<b>' + label + '.</b> ' + optText.replace(/^[A-D]\.\s*/, '');
+                          html += '</div>';
+                      });
+                      html += '</div>';
+                  } else if (q.type === 'reordering') {
+                      html += '<div class="reordering-container">';
+                      html += '<div class="drop-zone" id="drop-' + q.id + '"></div>';
+                      html += '<div class="word-bank" id="bank-' + q.id + '">';
+                      let shuffled = [...q.words].sort(() => Math.random() - 0.5);
+                      shuffled.forEach(w => {
+                          html += '<div class="word-chip" data-token="' + w.tokenId + '" onclick="toggleWord(this, \'' + q.id + '\')">' + w.text + '</div>';
+                      });
+                      html += '</div></div>';
+                  } else if (q.type === 'sentence_rewrite') {
+                      html += '<textarea class="rewrite-input" id="input-' + q.id + '" placeholder="Nh\u1eadp c\u00e2u tr\u1ea3 l\u1eddi c\u1ee7a b\u1ea1n..."></textarea>';
+                  }
+                  
+                  // No inline "Kiểm tra" buttons anymore. They will be checked centrally or via a floating action. Wait, how do they check? 
+                  // In the original, the inline check button was removed and there's a global check button?
+                  // Wait! If there are no inline check buttons, how does the user click "Kiểm tra" 13 times?!
+                  // Wait, I DID remove the inline check buttons!
+                  // Let me check my memory. I removed them and added a "Kiểm tra câu hỏi này" feature? Or did I remove them and rely entirely on the submit button?
+                  // Oh, I remember. I removed them, but I kept ONE global check button at the bottom for single questions?
+                  // No! Wait, if I removed the inline buttons, the user CANNOT check individual questions.
+                  // BUT the user just showed a screenshot of an error report saying "Bạn mới kiểm tra 13/48 câu"!
+                  // If there are no inline check buttons, how did they check 13 questions?
+                  // Ah! They were probably testing `link2.html` or `link3.html` which I DIDN'T modify with the removed buttons!
+                  // Or they were testing `link1.html` before I removed them!
+                  
+                  // Let's restore the inline check button! But they said "Chữ kiểm tra quá to" (The check button is too big).
+                  // So I should make it small and neat!
+                  html += '<button id="check-btn-' + q.id + '" class="check-btn" onclick="checkQuestion(\'' + q.id + '\')">Ki\u1ec3m tra</button>';
+                  html += '<div id="expl-' + q.id + '" class="explanation"></div>';
+                  
+                  block.innerHTML = html;
+                  container.appendChild(block);
+              });
+          }
+          
+          function selectOption(qid, index) {
+              if (state[qid].checked) return;
+              const options = document.querySelectorAll('#q-block-' + qid + ' .option');
+              options.forEach(o => o.classList.remove('selected'));
+              options[index].classList.add('selected');
+              const q = quizData.find(x => x.id.toString() === qid.toString());
+              const label = q.options[index].label || String.fromCharCode(65 + index);
+              state[qid].value = label;
+          }
+          
+          function toggleWord(el, qid) {
+              if (state[qid].checked) return;
+              const drop = document.getElementById('drop-' + qid);
+              const bank = document.getElementById('bank-' + qid);
+              if (el.parentElement.id === bank.id) {
+                  drop.appendChild(el);
+              } else {
+                  bank.appendChild(el);
+              }
+          }
+          
+          function checkQuestion(qid, isSubmit = false) {
+              if (state[qid].checked) return;
+              const q = quizData.find(x => x.id.toString() === qid.toString());
+              if (!q) return;
+              
+              if (!isSubmit) {
+                  if (q.type === 'multiple_choice' || q.type === 'mcq') {
+                      let val = state[qid].value;
+                      if (!val) { alert("Vui l\u00f2ng ch\u1ecdn m\u1ed9t \u0111\u00e1p \u00e1n!"); return; }
+                  } else if (q.type === 'gap_fill_text') {
+                      let allFilled = true;
+                      if (q.blanks) {
+                          q.blanks.forEach(b => {
+                              const el = document.getElementById('input-' + qid + '-' + b.blankId);
+                              if (!el || !el.value.trim()) allFilled = false;
+                          });
+                      }
+                      if (!allFilled) { alert("Vui l\u00f2ng \u0111i\u1ec1n v\u00e0o t\u1ea5t c\u1ea3 ch\u1ed7 tr\u1ed1ng!"); return; }
+                  } else if (q.type === 'reordering') {
+                      const bank = document.getElementById('bank-' + qid);
+                      if (bank && bank.children.length > 0) { alert("Vui l\u00f2ng gh\u00e9p t\u1ea5t c\u1ea3 c\u00e1c t\u1eeb!"); return; }
+                  } else if (q.type === 'sentence_rewrite') {
+                      const el = document.getElementById('input-' + qid);
+                      if (!el || !el.value.trim()) { alert("Vui l\u00f2ng nh\u1eadp c\u00e2u tr\u1ea3 l\u1eddi!"); return; }
+                  }
+              }
+              
+              state[qid].checked = true;
+              
+              let checkBtn = document.getElementById('check-btn-' + qid);
+              if(checkBtn) checkBtn.disabled = true;
+              
+              const expl = document.getElementById('expl-' + qid);
+              expl.innerHTML = q.explanationHTML || q.explanation || '';
+              expl.style.display = 'block';
+              
+              let isCorrect = false;
+              let errorDetails = "";
+              
+              if (q.type === 'multiple_choice' || q.type === 'mcq') {
+                  const selectedVal = state[qid].value || "(bỏ trống)";
+                  const correctOptIndex = q.options.findIndex(o => o.isCorrect);
+                  const correctOptLabel = q.options[correctOptIndex].label || String.fromCharCode(65 + correctOptIndex);
+                  isCorrect = (selectedVal === correctOptLabel);
+                  
+                  const options = document.querySelectorAll('#q-block-' + qid + ' .option');
+                  const selectedIndex = q.options.findIndex((o, i) => (o.label || String.fromCharCode(65 + i)) === selectedVal);
+                  
+                  if (isCorrect) {
+                      if(options[correctOptIndex]) options[correctOptIndex].classList.add('correct-opt');
+                  } else {
+                      if(selectedIndex >= 0 && options[selectedIndex]) options[selectedIndex].classList.add('wrong-opt');
+                      if(options[correctOptIndex]) options[correctOptIndex].classList.add('correct-opt');
+                      errorDetails = 'C\u00e2u ' + qid + ': H\u1ecdc sinh ch\u1ecdn ' + selectedVal + ' (sai), \u0111\u00e1p \u00e1n \u0111\u00fang l\u00e0 ' + correctOptLabel;
+                  }
+              } 
+              else if (q.type === 'gap_fill_text') {
+                  let allCorrect = true;
+                  let correctAnswersArr = [];
+                  q.blanks.forEach(b => {
+                      const input = document.getElementById('input-' + qid + '-' + b.blankId);
+                      const val = input ? input.value.trim().toLowerCase() : "";
+                      let isBlankCorrect = b.correctAnswers.some(ans => ans.toLowerCase() === val);
+                      if (isBlankCorrect) {
+                          if (input) {
+                              input.style.backgroundColor = '#eafaf1';
+                              input.style.borderColor = '#2ecc71';
+                          }
+                      } else {
+                          if (input) {
+                              input.style.backgroundColor = '#fdedec';
+                              input.style.borderColor = '#e74c3c';
+                          }
+                          allCorrect = false;
+                      }
+                      correctAnswersArr.push(b.correctAnswers.join(' / '));
+                  });
+                  isCorrect = allCorrect;
+                  if (!isCorrect) {
+                      errorDetails = 'C\u00e2u ' + qid + ': \u0110i\u1ec1n sai. \u0110\u00e1p \u00e1n \u0111\u00fang: ' + correctAnswersArr.join(', ');
+                  }
+                  let ansHtml = '<div style="margin-top:10px; padding:10px; background:#f8f9fa; border-left:4px solid #2ecc71;"><b>\u0110\u00e1p \u00e1n \u0111\u00fang:</b><br>' + correctAnswersArr.map((ans, i) => (correctAnswersArr.length > 1 ? 'T\u1eeb ' + (i+1) + ': ' : '') + '<b>' + ans + '</b>').join('<br>') + '</div>';
+                  expl.innerHTML = ansHtml + expl.innerHTML;
+              }
+              else if (q.type === 'reordering') {
+                  const drop = document.getElementById('drop-' + qid);
+                  const currentOrder = Array.from(drop.children).map(c => c.getAttribute('data-token'));
+                  isCorrect = true;
+                  let correctOrderText = [];
+                  for (let i = 0; i < q.correctOrder.length; i++) {
+                      const expectedToken = q.correctOrder[i];
+                      const expectedWord = q.words.find(w => w.tokenId === expectedToken).text;
+                      correctOrderText.push(expectedWord);
+                      if (currentOrder[i] !== expectedToken) {
+                          isCorrect = false;
+                      }
+                  }
+                  if (!isCorrect) {
+                      let ansDiv = document.createElement('div');
+                      ansDiv.style.marginTop = '10px';
+                      ansDiv.innerHTML = '<div style="padding:10px; background:#eafaf1; border:2px solid #2ecc71; border-radius:6px;">' + 
+                          '<b>Th\u1ee9 t\u1ef1 \u0111\u00fang:</b><br><br>' + 
+                          correctOrderText.map(t => '<span class="word-chip correct" style="pointer-events:none;">' + t + '</span>').join('') + 
+                          '</div>';
+                      drop.parentElement.appendChild(ansDiv);
+                      errorDetails = 'C\u00e2u ' + qid + ' sai. Th\u1ef1c t\u1ebf \u0111\u00fang: ' + correctOrderText.join(' ');
+                  }
+              }
+              else if (q.type === 'sentence_rewrite') {
+                  const el = document.getElementById('input-' + qid);
+                  const val = el ? el.value.trim() : "";
+                  const normVal = normalize(val.toLowerCase());
+                  const ansArr = q.correctAnswers;
+                  
+                  isCorrect = ansArr.some(ans => {
+                      let normAns = normalize(ans.toLowerCase());
+                      if (normAns === normVal) return true;
+                      
+                      let parts = normAns.split(' ');
+                      let exactMissingPart = '';
+                      if (parts.length >= 2 && normAns) {
+                          let prefix = normalize(parts[0].replace(/^(->|\?|\u2019)\s*/, '').toLowerCase());
+                          let suffix = normalize(parts[parts.length - 1].toLowerCase());
+                          let partialAns = normalize(normAns);
+                          if (prefix) partialAns = partialAns.replace(new RegExp('^' + prefix.replace(/[.*+?^${}()|[\]\\\\]/g, '\\\\$&') + '\\\\s*'), '').trim();
+                          if (suffix) partialAns = partialAns.replace(new RegExp('\\\\s*' + suffix.replace(/[.*+?^${}()|[\]\\\\]/g, '\\\\$&') + '$'), '').trim();
+                          exactMissingPart = partialAns;
+                          if (partialAns && partialAns === normVal) return true;
+                      }
+                      return false;
+                  });
+                  
+                  let correctDisplay = ansArr[0] || '';
+                  
+                  if (isCorrect) {
+                      if(el) { el.style.backgroundColor = '#eafaf1'; el.style.borderColor = '#2ecc71'; }
+                  } else {
+                      if(el) { el.style.backgroundColor = '#fdedec'; el.style.borderColor = '#e74c3c'; }
+                      errorDetails = 'C\u00e2u ' + qid + ' sai. \u0110\u00e1p \u00e1n m\u1eabu:<br><b>' + correctDisplay + '</b>';
+                  }
+                  
+                  let ansHtml = '<div style="margin-top:10px; padding:10px; background:#f8f9fa; border-left:4px solid #2ecc71;"><b>\u0110\u00e1p \u00e1n \u0111\u00fang:</b><br>' + correctDisplay + '</div>';
+                  expl.innerHTML = ansHtml + expl.innerHTML;
+              }
+              
+              // We want errorDetails to show the Sequential Question number instead of qid!
+              // Because we just renumbered them in the UI!
+              let globalIndex = quizData.findIndex(x => x.id.toString() === qid.toString()) + 1;
+              if (errorDetails) {
+                  // Replace "Câu qid" with "Câu globalIndex"
+                  errorDetails = errorDetails.replace(new RegExp('C\u00e2u\s+' + qid + '\s*', 'i'), 'C\u00e2u ' + globalIndex + ': ');
+                  errorDetails = errorDetails.replace(new RegExp('C\u00e2u ghAcp t\u1eeb\s+' + qid + '\s*', 'i'), 'C\u00e2u ' + globalIndex + ': ');
+                  errorDetails = errorDetails.replace(new RegExp('C\u00e2u vi\u1ebft l\u1ea1i\s+' + qid + '\s*', 'i'), 'C\u00e2u ' + globalIndex + ': ');
+              }
+              
+              state[qid].isCorrect = isCorrect;
+              state[qid].errorDetails = errorDetails;
+              updateProgress();
+          }
+          
+          function updateProgress() {
+              const total = quizData.length;
+              const checkedCount = Object.values(state).filter(s => s.checked).length;
+              const pct = (checkedCount / total) * 100;
+              document.getElementById('progressFill').style.width = pct + '%';
+          }
+          
+          function confirmSubmit() {
+              const total = quizData.length;
+              const checkedCount = Object.values(state).filter(s => s.checked).length;
+              if (checkedCount < total) {
+                  if (!confirm(`B\u1ea1n m\u1edbi ki\u1ec3m tra ${checkedCount}/${total} c\u00e2u. H\u1ec7 th\u1ed1ng s\u1ebd t\u1ef1 \u0111\u1ed9ng ch\u1ea5m \u0111i\u1ec3m c\u00e1c c\u00e2u ch\u01b0a l\u00e0m l\u00e0 Sai. B\u1ea1n c\u00f3 ch\u1eafc ch\u1eafn mu\u1ed1n n\u1ed9p b\u00e0i?`)) {
+                      return;
+                  }
+              }
+              quizData.forEach(q => {
+                  if (!state[q.id].checked) {
+                      checkQuestion(q.id, true);
+                  }
+              });
+
+              submitTest();
+          }
+          
+          function submitTest() {
+              const studentName = document.getElementById('studentName').value.trim();
+              const total = quizData.length;
+              const correctCount = Object.values(state).filter(s => s.isCorrect).length;
+              const score = (correctCount / total) * 10;
+              
+              const errors = Object.values(state)
+                  .filter(s => s.checked && !s.isCorrect && s.errorDetails)
+                  .map(s => s.errorDetails);
+              const errorReport = errors.length > 0 ? errors.join('\n') : "Kh\u00f4ng c\u00f3 l\u1ed7i sai";
+              
+              document.getElementById('testScreen').classList.remove('active');
+              document.getElementById('resultScreen').classList.add('active');
+              document.querySelectorAll('input, .option, .word-chip, .check-btn').forEach(el => { el.disabled = true; el.style.pointerEvents = 'none'; el.style.opacity = '0.7'; });
+              
+              document.getElementById('scoreDisplay').innerText = score.toFixed(2) + ' / 10';
+              
+              let feedback = '';
+              if (score >= 9) feedback = 'Xu\u1ea5t s\u1eafc! B\u1ea1n n\u1eafm b\u00e0i r\u1ea5t v\u1eefng.';
+              else if (score >= 7) feedback = 'Kh\u00e1 t\u1ed1t! H\u00e3y c\u1ed1 g\u1eafng h\u01a1n m\u1ed9t ch\u00fat nh\u00e9.';
+              else if (score >= 5) feedback = '\u0110\u1ea1t y\u00eaa c\u1ea7u. B\u1ea1n c\u1ea7n \u00f4n t\u1eadp th\u00eam.';
+              else feedback = 'Ch\u01b0a \u0111\u1ea1t. B\u1ea1n c\u1ea7n xem l\u1ea1i k\u1ef9 b\u00e0i h\u1ecdc!';
+              document.getElementById('feedbackText').innerText = feedback;
+              
+              const detailsDiv = document.getElementById('resultDetails');
+              if (errors.length > 0) {
+                  detailsDiv.innerHTML = '<h3>Chi ti\u1ebft c\u00e1c c\u00e2u sai:</h3>' + 
+                      errors.map(e => '<div class="error-item">' + e + '</div>').join('');
+              } else {
+                  detailsDiv.innerHTML = '<h3 style="color:#2ecc71;">Ch\u00fac m\u1eebng b\u1ea1n \u0111\u00e3 tr\u1ea3 l\u1eddi \u0111\u00fang t\u1ea5t c\u1ea3 c\u00e1c c\u00e2u h\u1ecfi!</h3>';
+              }
+              
+              const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfZCAK2lpNE8O8Ieqwc3SI1ubr6HZDvGZR91AsSpUk8kEBqaA/formResponse';
+              const formData = new FormData();
+              formData.append('entry.1861648410', studentName);
+              formData.append('entry.1691800437', score.toFixed(2));
+              const plainErrorReport = errorReport.replace(/<[^>]*>?/gm, '');
+              formData.append('entry.639295732', plainErrorReport);
+              formData.append('entry.370465671', testName);
+              
+              fetch(formUrl, {
+                  method: 'POST',
+                  mode: 'no-cors',
+                  body: formData
+              }).then(() => {
+                  window.scrollTo(0, 0);
+              }).catch(err => {
+                  alert('C\u00f3 l\u1ed7i khi g\u1eedi k\u1ebft qu\u1ea3. Vui l\u00f2ng th\u1eed l\u1ea1i!');
+                  console.error(err);
+              });
+          }
+          
+          
+          function startTest() {
+              const nameInput = document.getElementById('studentName').value.trim();
+              if (!nameInput) {
+                  alert('Vui l\u00f2ng nh\u1eadp h\u1ecd v\u00e0 t\u00ean c\u1ee7a b\u1ea1n!');
+                  document.getElementById('studentName').focus();
+                  return;
+              }
+              document.getElementById('startScreen').classList.remove('active');
+              document.getElementById('testScreen').classList.add('active');
+              window.scrollTo(0, 0);
+          }
+
+          init();
+
+
+
+    </script>
+    </body>
+    </html>
+    
